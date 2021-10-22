@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hyper news</title>
+    <!-- Static CSS files -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    <!-- Card view CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+<h2>Hyper news</h2>
+<!-- Use Django regroup: https://docs.djangoproject.com/en/3.2/ref/templates/builtins/#regroup -->
+{% regroup news_data|dictsortreversed:"created" by created|slice:":-9" as news_list_by_date %}
+
+<!-- Display all the news in a list, grouped by date. Link to each news article -->
+<div class="card blue-grey darken-1">
+    {% for data in news_list_by_date %}
+    <div class="card-content white-text">
+        <h4>{{ data.grouper }}</h4>
+        <ul>
+            {% for news_data in data.list %}
+            <div class="card-action">
+                <li><a href="/news/{{ news_data.link }}/">{{ news_data.title }}</a></li>
+            </div>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+<br>
+<!-- Link to creating a new article: -->
+<div class="card blue-grey darken-1">
+    <div class="card-content white-text">
+        <span class="card-title">Create News Article</span>
+        <div class="card-action">
+            <a target="_blank" href="/news/create/">Create Article</a>
+        </div>
+    </div>
+</div>
+<br>
+
+<!-- Search for news -->
+<div class="card blue-grey darken-1">
+    <div class="card-content white-text">
+        <span class="card-title">Search for News Article</span>
+<form action="/news/" method="get">
+    <label for="query_title">q:</label>
+    <input id="query_title" type="text" name="q">
+    <input type="submit" value="Query">
+
+</form>
+    </div>
+</div>
+
+</body>
+</html>
