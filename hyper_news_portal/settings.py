@@ -24,7 +24,9 @@ NEWS_JSON_PATH = os.environ.get('NEWS_JSON_PATH') or NEWS_JSON_PATH  # DO NOT MO
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-wyq+wj!!%3lja1s1ot+8-%ljy4&jk+oji&1tcf-)=siwzm=fgu'
+with open("secret_key.txt") as f:
+    data = f.read()
+SECRET_KEY = data  # Please configure
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
